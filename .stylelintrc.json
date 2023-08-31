@@ -1,0 +1,34 @@
+{
+    "extends": [
+        "stylelint-config-standard",
+        "stylelint-config-standard-scss",
+        "stylelint-config-recess-order"
+    ],
+    "plugins": [
+        "stylelint-order",
+        "stylelint-scss"
+    ],
+    "overrides": [
+        {
+            "files": [
+                "**/*.{vue,html}"
+            ],
+            "customSyntax": "postcss-html"
+        }
+    ],
+    "rules": {
+        "selector-pseudo-class-no-unknown": [
+            true,
+            {
+                "ignorePseudoClasses": [
+                    "deep"
+                ]
+            }
+        ],
+        "scss/at-rule-no-unknown": null,        
+        "no-descending-specificity": null,        
+        "selector-class-pattern": null,
+        "declaration-colon-newline-after": null,
+        "value-list-comma-newline-after": null
+    }
+}
