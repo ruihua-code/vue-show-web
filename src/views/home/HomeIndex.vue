@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <ZrhHeader title="home"></ZrhHeader>
+    <ZrhHeader></ZrhHeader>
   </div>
 </template>
 
