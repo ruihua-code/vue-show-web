@@ -1,6 +1,7 @@
 import './assets/main.css'
 import './assets/font/index.css'
-
+import './assets/styles/bootstrap.scss'
+import { Tooltip, Toast, Popover } from 'bootstrap'
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 
