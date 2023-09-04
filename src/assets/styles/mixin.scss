@@ -1,0 +1,15 @@
+@mixin mixin-show-text($start, $end, $duration, $delay) {
+    animation: show-text $duration $delay ease-in forwards;
+  
+    @keyframes show-text {
+        from {
+            opacity: 0;
+            transform: translateX($start);
+        }
+  
+        to {
+            opacity: 1;
+            transform: translateX($end);
+        }
+    }
+}

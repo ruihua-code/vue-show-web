@@ -20,23 +20,43 @@
         <div class="carousel-inner">
           <div class="carousel-item active">
             <div class="text-block">
-              <div class="text">
-                <span>The Legal Advice</span>
-                <span>Need Phone Call</span>
-                <span>Away</span>
-              </div>
-            </div>
-            <img :src="slider1" class="d-block w-100 carousel-img" />
-          </div>
-          <div class="carousel-item">
-            <div class="text-block">
-              <div class="text">
-                <span>We are Specialise In</span>
-                <span>All Criminal & Civil</span>
-                <span>Laws.</span>
+              <div></div>
+              <div class="loop"></div>
+              <div class="slde-1">LEAVE COURT TO US</div>
+              <div class="slde-2">
+                <div>The Legal Advice</div>
+                <div>
+                  <span>Need</span>
+                  <span class="phone-call">Phone Call</span>
+                </div>
+                <span class="last-block">Away.</span>
+                <div class="slde-3">
+                  <span>Lorem Ipsum generators on the Internet tend to</span>
+                  <span>predefined chunks as necessary making.</span>
+                </div>
               </div>
             </div>
             <img :src="slider2" class="d-block w-100 carousel-img" />
+          </div>
+          <div class="carousel-item">
+            <div class="text-block">
+              <div></div>
+              <div class="loop"></div>
+              <div class="slde-1">WELLCOM TO IGUAL</div>
+              <div class="slde-2">
+                <div>We are Specialise In</div>
+                <div>
+                  <span>ALL</span>
+                  <span class="phone-call">Criminal & Civil</span>
+                </div>
+                <span class="last-block">Laws.</span>
+                <div class="slde-3">
+                  <span>Lorem Ipsum generators on the Internet tend to</span>
+                  <span>predefined chunks as necessary making.</span>
+                </div>
+              </div>
+            </div>
+            <img :src="slider1" class="d-block w-100 carousel-img" />
           </div>
         </div>
       </div>
@@ -77,34 +97,73 @@ onMounted(() => {
 
 <style lang="scss" scoped>
 .banner {
+  position: relative;
+  z-index: 1;
   width: 100%;
-  margin-top: 100px;
 
   .carousel-img {
     height: calc(100vh - 100px);
+    object-fit: cover;
   }
 
   .carousel-item {
     position: relative;
-    z-index: 9999;
+    z-index: 1;
     transition-duration: 1s;
   }
 
   .text-block {
     position: absolute;
-    top: 200px;
-    left: 200px;
-    color: transparent;
-    opacity: 0;
-    transform: translateX(-100px);
-    animation: show-text 1s 1s linear forwards;
+    top: calc(50% - 150px);
+    left: 0;
+    color: #fff;
+  }
 
-    .text {
+  .loop {
+    position: absolute;
+    top: -20px;
+    left: 80px;
+    width: 141px;
+    height: 141px;
+    background-color: rgb(184 150 126 / 17%);
+    border-radius: 0% 50%;
+    animation: show-loop 3s 1s linear alternate-reverse infinite;
+  }
+
+  .slde-1 {
+    font-size: 18px;
+    color: rgb(184 150 126);
+    opacity: 0;
+    animation: show-text 0.8s 0.5s ease-in forwards;
+  }
+
+  .slde-2 {
+    font-size: 80px;
+    opacity: 0;
+    animation: show-text 0.8s 1s ease-in forwards;
+
+    .phone-call {
+      margin-left: 8px;
+      color: transparent;
+      -webkit-text-stroke: 1px rgb(184 150 126);
+    }
+
+    .last-block {
+      background-color: #0d111a;
+    }
+
+    .slde-3 {
+      position: absolute;
+      bottom: 25px;
+      z-index: -1;
       display: flex;
       flex-direction: column;
-      row-gap: 10px;
-      font-size: 80px;
-      -webkit-text-stroke: 1px #b8967e;
+      padding-left: 15px;
+      margin-left: 15px;
+      font-size: 16px;
+      border-left: 2px solid rgb(184 150 126);
+      opacity: 0;
+      animation: show-text-1 0.8s 2s ease-in forwards;
     }
   }
 }
@@ -116,15 +175,37 @@ onMounted(() => {
   }
 }
 
+@keyframes show-loop {
+  from {
+    transform: rotateY(-15deg);
+  }
+
+  to {
+    transform: rotateY(55deg);
+  }
+}
+
 @keyframes show-text {
   from {
     opacity: 0;
-    transform: translateX(-100px);
+    transform: translateX(0);
   }
 
   to {
     opacity: 1;
-    transform: translateX(170px);
+    transform: translateX(100px);
+  }
+}
+
+@keyframes show-text-1 {
+  from {
+    opacity: 0;
+    transform: translateX(0);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(220px);
   }
 }
 </style>
