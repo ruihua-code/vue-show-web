@@ -2,97 +2,104 @@
   <div class="home">
     <ZrhHeader></ZrhHeader>
     <div class="banner">
-      <div id="carouselExampleCaptions" class="carousel slide carousel-fade">
-        <div class="carousel-indicators">
-          <button
-            type="button"
-            data-bs-target="#carouselExampleCaptions"
-            data-bs-slide-to="0"
-            class="active"
-            aria-current="true"
-            aria-label="Slide 1"></button>
-          <button
-            type="button"
-            data-bs-target="#carouselExampleCaptions"
-            data-bs-slide-to="1"
-            aria-label="Slide 2"></button>
+      <TopBanner :images="[slider1, slider2]"></TopBanner>
+    </div>
+    <div class="content">
+      <div class="our-resources">
+        <div class="title">OUR RESOURCES</div>
+        <h3 class="title-2">We Live & Work Globally</h3>
+        <div class="line">
+          <span class="elementor-divider-separator"></span>
         </div>
-        <div class="carousel-inner">
-          <div class="carousel-item active">
-            <div class="text-block">
-              <div></div>
-              <div class="loop"></div>
-              <div class="slde-1">LEAVE COURT TO US</div>
-              <div class="slde-2">
-                <div>The Legal Advice</div>
-                <div>
-                  <span>Need</span>
-                  <span class="phone-call">Phone Call</span>
-                </div>
-                <span class="last-block">Away.</span>
-                <div class="slde-3">
-                  <span>Lorem Ipsum generators on the Internet tend to</span>
-                  <span>predefined chunks as necessary making.</span>
-                </div>
-              </div>
+        <div class="list">
+          <div class="list-item" v-for="(item, index) in ourResources" :key="index">
+            <div class="value-unit">
+              <span class="value">
+                {{ arr[index] }}
+              </span>
+              <span class="unit">{{ item.unit }}</span>
             </div>
-            <img :src="slider2" class="d-block w-100 carousel-img" />
-          </div>
-          <div class="carousel-item">
-            <div class="text-block">
-              <div></div>
-              <div class="loop"></div>
-              <div class="slde-1">WELLCOM TO IGUAL</div>
-              <div class="slde-2">
-                <div>We are Specialise In</div>
-                <div>
-                  <span>ALL</span>
-                  <span class="phone-call">Criminal & Civil</span>
-                </div>
-                <span class="last-block">Laws.</span>
-                <div class="slde-3">
-                  <span>Lorem Ipsum generators on the Internet tend to</span>
-                  <span>predefined chunks as necessary making.</span>
-                </div>
-              </div>
-            </div>
-            <img :src="slider1" class="d-block w-100 carousel-img" />
+            <span class="label">{{ item.label }}</span>
           </div>
         </div>
       </div>
-    </div>
-    <div class="content">
-      <span class="num">{{ num }}</span>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
+import { onMounted, ref, reactive } from 'vue'
 import ZrhHeader from '@/components/header/ZrhHeader.vue'
+import TopBanner from './components/TopBanner.vue'
 import slider1 from '@/assets/images/home/law-slider-1.jpg'
 import slider2 from '@/assets/images/home/law-slider-2.jpg'
-import { onMounted, ref } from 'vue'
-import * as bootstrap from 'bootstrap'
 
-const num = ref(0)
+import gsap from 'gsap'
+
+const arr = ref([0, 0, 0, 0, 0, 0])
+
+const ourResources = ref([
+  {
+    value: 3200,
+    unit: '+',
+    label: 'LAWYERS ACROSS OUR GLOBAL PLATFORM'
+  },
+  {
+    value: 100,
+    unit: '%',
+    label: 'ON HUMAN RIGHTS CAMPAIGN FOUNDATION’S 2023'
+  },
+  {
+    value: 92,
+    unit: '%',
+    label: 'LATHAM LAWYERS PARTICIPATE IN PRO BONO WORK'
+  },
+  {
+    value: 60,
+    unit: '+',
+    label: 'NUMBER OF NATIVE SPEAKERS LANGUAGES SPOKEN'
+  },
+  {
+    value: 239,
+    unit: 'k',
+    label: 'ENCOURAGES LAWYERS TO ENGAGE IN AT LEAST 50 HOURS'
+  },
+  {
+    value: 14,
+    unit: '%',
+    label: 'COUNTRIES IN WHICH THE FIRM IS LOCATED'
+  }
+])
+
+const updateNum = (index: number, max: number) => {
+  gsap.to(arr.value, {
+    duration: 2.5,
+    [index]: max,
+    onUpdate: () => {
+      arr.value[index] = Number(arr.value[index].toFixed(0))
+    }
+  })
+}
 
 onMounted(() => {
-  const myCarousel = document.getElementById('carouselExampleCaptions') as HTMLElement
-
-  myCarousel.addEventListener('click', () => {
-    const carousel = new bootstrap.Carousel(myCarousel, {
-      interval: 10000,
-      touch: false
-    })
-    carousel.next()
-  })
-  const timeFlag = setInterval(() => {
-    num.value++
-    if (num.value === 100) {
-      clearInterval(timeFlag)
-    }
-  }, 20)
+  startAni()
 })
+
+/**
+ * 检查是否开始播放OUR RESOURCES里面的动画
+ */
+const startAni = () => {
+  const eleZrh = document.querySelector('.value-unit')
+  const docHeight = document.documentElement.clientHeight / 2
+  document?.addEventListener('scroll', () => {
+    const { y } = eleZrh?.getBoundingClientRect() as any
+    if (docHeight + 100 > y) {
+      ourResources.value.forEach((ele, index) => {
+        updateNum(index, ele.value)
+      })
+    }
+  })
+}
 </script>
 
 <style lang="scss" scoped>
@@ -100,112 +107,139 @@ onMounted(() => {
   position: relative;
   z-index: 1;
   width: 100%;
-
-  .carousel-img {
-    height: calc(100vh - 100px);
-    object-fit: cover;
-  }
-
-  .carousel-item {
-    position: relative;
-    z-index: 1;
-    transition-duration: 1s;
-  }
-
-  .text-block {
-    position: absolute;
-    top: calc(50% - 150px);
-    left: 0;
-    color: #fff;
-  }
-
-  .loop {
-    position: absolute;
-    top: -20px;
-    left: 80px;
-    width: 141px;
-    height: 141px;
-    background-color: rgb(184 150 126 / 17%);
-    border-radius: 0% 50%;
-    animation: show-loop 3s 1s linear alternate-reverse infinite;
-  }
-
-  .slde-1 {
-    font-size: 18px;
-    color: rgb(184 150 126);
-    opacity: 0;
-    animation: show-text 0.8s 0.5s ease-in forwards;
-  }
-
-  .slde-2 {
-    font-size: 80px;
-    opacity: 0;
-    animation: show-text 0.8s 1s ease-in forwards;
-
-    .phone-call {
-      margin-left: 8px;
-      color: transparent;
-      -webkit-text-stroke: 1px rgb(184 150 126);
-    }
-
-    .last-block {
-      background-color: #0d111a;
-    }
-
-    .slde-3 {
-      position: absolute;
-      bottom: 25px;
-      z-index: -1;
-      display: flex;
-      flex-direction: column;
-      padding-left: 15px;
-      margin-left: 15px;
-      font-size: 16px;
-      border-left: 2px solid rgb(184 150 126);
-      opacity: 0;
-      animation: show-text-1 0.8s 2s ease-in forwards;
-    }
-  }
 }
 
 .content {
+  width: 1200px;
+  min-width: 1200px;
+  margin: 0 auto;
+
+  .our-resources {
+    padding: 20px;
+    text-align: center;
+
+    .title {
+      position: relative;
+      display: inline-block;
+      margin-bottom: 10px;
+      color: #b8967e;
+      text-align: center;
+
+      &::before,
+      &::after {
+        position: absolute;
+        top: 50%;
+        width: 20px;
+        height: 13px;
+        content: '';
+        border-top-right-radius: 7px;
+        border-bottom-left-radius: 7px;
+        transition: 0.4s;
+        transform: translateY(-50%);
+      }
+
+      &::before {
+        left: -29px;
+        background: linear-gradient(to right, #b8967e, rgb(184 151 128 / 6%));
+      }
+
+      &::after {
+        right: -29px;
+        background: linear-gradient(to left, #b8967e, rgb(184 151 128 / 6%));
+      }
+    }
+
+    .title-2 {
+      font-family: $font-family-marcellus;
+      font-size: 40px;
+      color: #262626;
+      letter-spacing: 0.5px;
+    }
+
+    .line {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 60px;
+
+      .elementor-divider-separator {
+        width: 10%;
+        margin: 0 auto;
+        border-top: 2px solid;
+        border-image: linear-gradient(to right, #b8967e, rgb(58 123 213 / 0%));
+        border-image-slice: 1;
+      }
+    }
+
+    .list {
+      display: flex;
+      flex-wrap: wrap;
+
+      .list-item:nth-child(1) {
+        border-width: 0 0 1px;
+      }
+
+      .list-item:nth-child(2) {
+        border-width: 0 1px 1px;
+      }
+
+      .list-item:nth-child(3) {
+        border-width: 0 0 1px;
+      }
+
+      .list-item:nth-child(5) {
+        border-width: 0 1px;
+      }
+
+      .list-item {
+        flex-basis: 33.33%;
+        padding: 40px;
+        border-color: #eaeaea;
+        border-style: solid;
+        border-width: 0;
+
+        .value-unit {
+          margin-bottom: 10px;
+        }
+
+        .value {
+          display: inline-block;
+          max-width: 150px;
+          overflow: hidden;
+        }
+
+        .value,
+        .unit {
+          font-family: $font-family-marcellus;
+          font-size: 56px;
+          line-height: 1em;
+          color: #b8967e;
+          white-space: nowrap;
+        }
+
+        .label {
+          font-size: 15px;
+          font-weight: 700;
+          color: #00192c;
+          letter-spacing: 0.5px;
+        }
+      }
+    }
+  }
+
   .num {
     padding: 10px;
     border: 1px;
   }
 }
 
-@keyframes show-loop {
+@keyframes show-zrh {
   from {
-    transform: rotateY(-15deg);
+    transform: scale(0.2);
   }
 
   to {
-    transform: rotateY(55deg);
-  }
-}
-
-@keyframes show-text {
-  from {
-    opacity: 0;
-    transform: translateX(0);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateX(100px);
-  }
-}
-
-@keyframes show-text-1 {
-  from {
-    opacity: 0;
-    transform: translateX(0);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateX(220px);
+    transform: scale(1.2);
   }
 }
 </style>
